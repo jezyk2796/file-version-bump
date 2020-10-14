@@ -40,3 +40,8 @@ npm install --save-dev file-version-bump
 ```
 
 You need to add both the `scripts` entry for `file-version-bump` and also the `file-version-bump` entry with an array of globs specifying the files that you would like to have bumped.
+
+Adding files to git is disabled by default. To turn on adding files to git you have to set the  `git-add-param` to `true`.
+```json
+"git-add-param": true
+```

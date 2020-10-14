@@ -8,6 +8,7 @@ const exec = P.promisify(require('child_process').exec);
 
 const packageJSON = require(path.join(process.cwd(), 'package.json'));
 const fileBumpConfig = packageJSON['file-version-bump'];
+const gitAddParam = packageJSON['git-add-param'];
 
 function runGitAdd(file) {
   return exec(`git add ${file}`, {
@@ -38,7 +39,11 @@ function processGlobString(globString) {
         return P.promisify(fs.writeFile)(
           path.join(process.cwd(), filePath),
           fileContents.replace(semverRegex, packageJSON.version)
-        ).then(() => runGitAdd(filePath));
+        ).then(() => {
+          if (gitAddParam === true || gitAddParam === 'true') {
+            runGitAdd(filePath);
+          }
+        });
       }).catch((err) => {
         console.log(err);
       });
